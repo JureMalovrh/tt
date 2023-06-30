@@ -37,6 +37,11 @@ jobs:
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   say-hello-workflow:
+    when:
+      and:
+        - equal: [ master, << pipeline.git.branch >> ]
+        - not:
+            equal: [ api, << pipeline.trigger_source >> ]
     jobs:
       - say-hello
       - hold:
