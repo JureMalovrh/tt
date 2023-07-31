@@ -1,0 +1,27 @@
+rules:
+  - stage-to-prod-notify:
+      conditions:
+        - environment='Staging'
+        - pr_labels!='quickfix'
+      actions:
+        - slack_channel_approval:
+            name: "Promote deploy to production"
+            on_success:
+              - auto_approve_build: 'test-and-deploy'
+              - add_to_deploy_message_thread: Build promoted to production by manual Slack approval
+            prompt: "{{ authors_slack }}, would you like to promote {{ deploy_slack }} to production?"
+            votes_required: 1
+            channel: "#d"
+
+  - stage-to-prod-auto:
+      conditions:
+        - environment='Staging'
+        - pr_labels!='quickfix'
+        - deploy_message_reaction_minus_1=0
+        - health='Healthy'
+        - deployed_for>='5m'
+        - failed_rules!='stage-to-prod-notify'
+      actions:
+        - auto_approve_build: 'test-and-deploy'
+        - add_to_deploy_message_thread: >-
+            Build automatically promoted on a healthy status
