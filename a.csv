@@ -1,2 +1,3 @@
 "condition:customAudienceName","condition:externalCustomAudienceName","condition:countryCode","condition:zip","condition:dma","condition:cityName","condition:stateCode","condition:clientDate","condition:language","condition:customTagVariable[loggedin]","condition:suppliername","value:Total"
 "lala","test","us","10001","807","New York","NY","2016-12-31","en","1","Supplier xyz","1"
+"broken"
