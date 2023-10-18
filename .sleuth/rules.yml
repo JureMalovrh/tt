@@ -25,3 +25,17 @@ rules:
         - auto_approve_build: 'test-and-deploy'
         - add_to_deploy_message_thread: >-
             Build automatically promoted on a healthy status
+
+  - send_daily_dora_metrics_report:
+    triggers:
+      - cron:
+        target: project   # <- the trigger fetches the whole Project
+    # no filters
+    conditions:
+       hours: 7
+       project: X
+       environment: Y
+    actions:
+      - send_slack_msg:
+          message: "{{ dora_report }}"  # <- how do we know the FROM, TO for the dora report?
+          channel: "jure-dev-2"
